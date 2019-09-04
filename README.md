@@ -1,16 +1,8 @@
-# flutter_shop_app
+## 写在前面
 
-A new Flutter project.
+* [掘金小册 -- 视频 Flutter 实战详解：企业级移动电商开发](https://juejin.im/book/5cdbc3615188254b1a0743f1)
 
-## Getting Started
+* [技术胖博客 --  Flutter实战视频-移动电商](http://jspang.com/posts/2019/03/01/flutter-shop.html)
 
-This project is a starting point for a Flutter application.
+* [B站视频地址--  技术胖flutter移动电商实战](https://www.bilibili.com/video/av62419128?t=46&p=1)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
