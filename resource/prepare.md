@@ -1,4 +1,4 @@
-##  本项目所参考的资源
+# 本项目所参考的资源
 
 * [shenghy GitHub 项目：一个Flutter的电商实战项目](https://github.com/shenghy/flutter_shop)
 
@@ -8,8 +8,8 @@
 
   ```dart
   // flutter_shop/lib/config/service_url.dart  2019-09-04
-  
-  const serviceUrl = 'http://v.jspang.com:8088/baixing/'; 
+  // 此端口针对于正版用户开放，可自行fiddle获取。
+  const serviceUrl = 'http://v.jspang.com:8088/baixing/';
   const servicePath = {
      'homePageContent':serviceUrl + 'wxmini/homePageContent', // 商店首页信息
      'homePageBelowConten':serviceUrl + 'wxmini/homePageBelowConten', // 首页热卖商品
@@ -18,6 +18,3 @@
      'getGoodDetailById':serviceUrl + 'wxmini/getGoodDetailById',  // 商品详情
   };
   ```
-
-  
-
