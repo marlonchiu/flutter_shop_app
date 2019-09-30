@@ -43,8 +43,7 @@ class _HomePageState extends State<HomePage> {
       Response response;
       Dio dio = new Dio();
       dio.options.headers = httpHeaders;
-      response =
-          await dio.get('https://time.geekbang.org/serv/v1/column/newAll');
+      response = await dio.get('https://time.geekbang.org/serv/v1/column/newAll');
       print(response);
       return response.data;
     } catch (e) {
