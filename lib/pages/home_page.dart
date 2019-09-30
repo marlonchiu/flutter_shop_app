@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../service/service_method.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'dart:convert';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -64,8 +65,14 @@ class SwiperDiy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // iphone6 作为参考设计尺寸
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
+    // print('设备宽度:${ScreenUtil.screenWidth}');
+    // print('设备高度:${ScreenUtil.screenHeight}');
+    // print('设备像素密度:${ScreenUtil.pixelRatio}');
     return Container(
-      height: 333.0,
+      height: ScreenUtil().setHeight(333.0),
+      width: ScreenUtil().setWidth(750.0),
       child: Swiper(
         itemBuilder: (BuildContext content, int index) {
           return Image.network("${swiperDataList[index]['image']}",
