@@ -40,14 +40,23 @@ class _HomePageState extends State<HomePage> {
                 (data['data']['slides'] as List).cast(); // 顶部轮播组件数
             List<Map> navigatorList =
                 (data['data']['category'] as List).cast(); //类别列表
+            String advertesPicture =
+                data['data']['advertesPicture']['PICTURE_ADDRESS']; //广告图片
+
             return Column(
               children: <Widget>[
                 SwiperDiy(
                   // 页面顶部轮播组件
                   swiperDataList: swiperDataList,
                 ),
-                TopNavigator( // 导航栏目
-                  navigatorList: navigatorList,)
+                TopNavigator(
+                  // 导航栏目
+                  navigatorList: navigatorList,
+                ),
+                AdBanner(
+                  // 广告图片
+                  adPicture: advertesPicture
+                )
               ],
             );
           } else {
@@ -115,7 +124,7 @@ class TopNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 边界判断
-    if(navigatorList.length > 10) {
+    if (navigatorList.length > 10) {
       navigatorList.removeRange(10, navigatorList.length);
     }
 
@@ -125,10 +134,23 @@ class TopNavigator extends StatelessWidget {
       child: GridView.count(
         crossAxisCount: 5,
         padding: EdgeInsets.all(4.0),
-        children: navigatorList.map((item){
+        children: navigatorList.map((item) {
           return _gridViewItemUI(context, item);
         }).toList(),
       ),
+    );
+  }
+}
+
+// 广告banner组件
+class AdBanner extends StatelessWidget {
+  final String adPicture;
+  AdBanner({Key key, this.adPicture}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Image.network(adPicture),
     );
   }
 }
