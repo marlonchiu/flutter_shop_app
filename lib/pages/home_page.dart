@@ -10,7 +10,17 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    print('数据初始化');
+  }
+
   String homePageContent = '正在获取数据';
 
   // 直接 FutureBuilder 获取数据 就不初始化了
@@ -49,30 +59,28 @@ class _HomePageState extends State<HomePage> {
                 (data['data']['recommend'] as List).cast(); //商品推荐列表
 
             return SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  SwiperDiy(
-                    // 页面顶部轮播组件
-                    swiperDataList: swiperDataList,
-                  ),
-                  TopNavigator(
-                    // 导航栏目
-                    navigatorList: navigatorList,
-                  ),
-                  AdBanner(
+              child: Column(children: <Widget>[
+                SwiperDiy(
+                  // 页面顶部轮播组件
+                  swiperDataList: swiperDataList,
+                ),
+                TopNavigator(
+                  // 导航栏目
+                  navigatorList: navigatorList,
+                ),
+                AdBanner(
                     // 广告图片
                     adPicture: advertesPicture),
-                  LeaderPhone(
-                    // 拨打电话
-                    leaderImage: leaderImage,
-                    leaderPhone: leaderPhone,
-                  ),
-                  Recommend(
-                    // 商品推荐
-                    recommendList: recommendList,
-                  )
-                ]
-              ),
+                LeaderPhone(
+                  // 拨打电话
+                  leaderImage: leaderImage,
+                  leaderPhone: leaderPhone,
+                ),
+                Recommend(
+                  // 商品推荐
+                  recommendList: recommendList,
+                )
+              ]),
             );
           } else {
             return Center(
@@ -241,7 +249,7 @@ class Recommend extends StatelessWidget {
   }
 
   // 横向列表组件
-  Widget _recommedList() {
+  Widget _recommendList() {
     return Container(
       height: ScreenUtil().setHeight(330),
       child: ListView.builder(
@@ -257,12 +265,12 @@ class Recommend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(380),
+      height: ScreenUtil().setHeight(380.0),
       margin: EdgeInsets.only(top: 10.0),
       child: Column(
         children: <Widget>[
           _titleWidget(),
-          _recommedList()
+          _recommendList()
         ],
       ),
     );
