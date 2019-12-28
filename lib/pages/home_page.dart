@@ -57,9 +57,12 @@ class _HomePageState extends State<HomePage>
             String leaderPhone = data['data']['shopInfo']['leaderPhone']; //店长电话
             List<Map> recommendList =
                 (data['data']['recommend'] as List).cast(); //商品推荐列表
-            String floor1Title = data['data']['floor1Pic']['PICTURE_ADDRESS']; // 楼层1的标题图片
-            String floor2Title = data['data']['floor2Pic']['PICTURE_ADDRESS']; // 楼层1的标题图片
-            String floor3Title = data['data']['floor3Pic']['PICTURE_ADDRESS']; // 楼层1的标题图片
+            String floor1Title =
+                data['data']['floor1Pic']['PICTURE_ADDRESS']; // 楼层1的标题图片
+            String floor2Title =
+                data['data']['floor2Pic']['PICTURE_ADDRESS']; // 楼层1的标题图片
+            String floor3Title =
+                data['data']['floor3Pic']['PICTURE_ADDRESS']; // 楼层1的标题图片
             List<Map> floor1Goods =
                 (data['data']['floor1'] as List).cast(); //楼层1商品和图片
             List<Map> floor2Goods =
@@ -95,6 +98,7 @@ class _HomePageState extends State<HomePage>
                 FloorContent(floorGoodsList: floor2Goods),
                 FloorTitle(pictureAddress: floor3Title),
                 FloorContent(floorGoodsList: floor3Goods),
+                HotGoods()
               ]),
             );
           } else {
@@ -314,10 +318,7 @@ class FloorContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: Column(
-      children: <Widget>[
-        _firstRow(),
-        _otherGoods()
-      ],
+      children: <Widget>[_firstRow(), _otherGoods()],
     ));
   }
 
@@ -353,6 +354,28 @@ class FloorContent extends StatelessWidget {
         _goodsItem(floorGoodsList[3]),
         _goodsItem(floorGoodsList[4])
       ],
+    );
+  }
+}
+
+// 火爆专区
+class HotGoods extends StatefulWidget {
+  @override
+  _HotGoodsState createState() => _HotGoodsState();
+}
+
+class _HotGoodsState extends State<HotGoods> {
+  void initState() {
+    super.initState();
+    getHomePageBelowConten().then((val) {
+      print(val);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text('1111'),
     );
   }
 }
