@@ -38,37 +38,41 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasData) {
             var data = json.decode(snapshot.data.toString());
             List<Map> swiperDataList =
-              (data['data']['slides'] as List).cast(); // 顶部轮播组件数
+                (data['data']['slides'] as List).cast(); // 顶部轮播组件数
             List<Map> navigatorList =
-              (data['data']['category'] as List).cast(); //类别列表
+                (data['data']['category'] as List).cast(); //类别列表
             String advertesPicture =
-              data['data']['advertesPicture']['PICTURE_ADDRESS']; //广告图片
-            String leaderImage =
-              data['data']['shopInfo']['leaderImage'];  //店长图片
-            String leaderPhone =
-              data['data']['shopInfo']['leaderPhone']; //店长电话
+                data['data']['advertesPicture']['PICTURE_ADDRESS']; //广告图片
+            String leaderImage = data['data']['shopInfo']['leaderImage']; //店长图片
+            String leaderPhone = data['data']['shopInfo']['leaderPhone']; //店长电话
+            List<Map> recommendList =
+                (data['data']['recommend'] as List).cast(); //商品推荐列表
 
-
-            return Column(
-              children: <Widget>[
-                SwiperDiy(
-                  // 页面顶部轮播组件
-                  swiperDataList: swiperDataList,
-                ),
-                TopNavigator(
-                  // 导航栏目
-                  navigatorList: navigatorList,
-                ),
-                AdBanner(
-                  // 广告图片
-                  adPicture: advertesPicture
-                ),
-                LeaderPhone(
-                  // 拨打电话
-                  leaderImage:leaderImage,
-                  leaderPhone: leaderPhone,
-                )
-              ],
+            return SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  SwiperDiy(
+                    // 页面顶部轮播组件
+                    swiperDataList: swiperDataList,
+                  ),
+                  TopNavigator(
+                    // 导航栏目
+                    navigatorList: navigatorList,
+                  ),
+                  AdBanner(
+                    // 广告图片
+                    adPicture: advertesPicture),
+                  LeaderPhone(
+                    // 拨打电话
+                    leaderImage: leaderImage,
+                    leaderPhone: leaderPhone,
+                  ),
+                  Recommend(
+                    // 商品推荐
+                    recommendList: recommendList,
+                  )
+                ]
+              ),
             );
           } else {
             return Center(
@@ -176,10 +180,7 @@ class LeaderPhone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: InkWell(
-        onTap: _launchURL,
-        child: Image.network(leaderImage)
-      ),
+      child: InkWell(onTap: _launchURL, child: Image.network(leaderImage)),
     );
   }
 
@@ -190,5 +191,80 @@ class LeaderPhone extends StatelessWidget {
     } else {
       throw 'Could not launch $url';
     }
+  }
+}
+
+// 商品推荐模块
+class Recommend extends StatelessWidget {
+  final List recommendList;
+  Recommend({Key key, this.recommendList}) : super(key: key);
+
+  // 推荐商品标题
+  Widget _titleWidget() {
+    return Container(
+      alignment: Alignment.centerLeft,
+      padding: EdgeInsets.fromLTRB(10.0, 2.0, 0, 5.0),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border:
+              Border(bottom: BorderSide(width: 0.5, color: Colors.black12))),
+      child: Text('商品推荐', style: TextStyle(color: Colors.pink)),
+    );
+  }
+
+  // 商品单独项的方法
+  Widget _itemWidget(index) {
+    // InkWell 可点击的item
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        height: ScreenUtil().setHeight(330),
+        width: ScreenUtil().setHeight(250),
+        padding: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border:
+                Border(left: BorderSide(width: 0.5, color: Colors.black12))),
+        child: Column(
+          children: <Widget>[
+            Image.network(recommendList[index]['image']),
+            Text('￥${recommendList[index]['mallPrice']}'),
+            Text(
+              '￥${recommendList[index]['price']}',
+              style: TextStyle(
+                  decoration: TextDecoration.lineThrough, color: Colors.grey),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // 横向列表组件
+  Widget _recommedList() {
+    return Container(
+      height: ScreenUtil().setHeight(330),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: recommendList.length,
+        itemBuilder: (context, index) {
+          return _itemWidget(index);
+        },
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: ScreenUtil().setHeight(380),
+      margin: EdgeInsets.only(top: 10.0),
+      child: Column(
+        children: <Widget>[
+          _titleWidget(),
+          _recommedList()
+        ],
+      ),
+    );
   }
 }
