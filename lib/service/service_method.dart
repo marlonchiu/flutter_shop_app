@@ -4,7 +4,7 @@ import 'dart:io';
 import '../config/service_url.dart';
 
 // 编写一个 公共方法，方法返回一个Future对象
-Future commonRequest(url, formData) async {
+Future commonRequest(url, {formData}) async {
   try {
     print('开始获取数据...............');
     Response response;
@@ -31,7 +31,7 @@ Future commonRequest(url, formData) async {
 Future getHomePageContent() async {
   // 模拟经纬度地理位置
   var formData = {'lon': '115.02932', 'lat': '35.76189'};
-  return commonRequest('homePageContent', formData);
+  return commonRequest('homePageContent', formData: formData);
   // try {
   //   print('开始获取首页数据...............');
   //   Response response;
@@ -52,8 +52,6 @@ Future getHomePageContent() async {
 }
 
 // 获取火爆商品
-Future getHomePageBelowConten() async {
-  // 默认加载页
-  int page = 1;
-  return commonRequest('homePageBelowConten', page);
+Future getHomePageBelowConten(formPage) async {
+  return commonRequest('homePageBelowConten', formData:formPage);
 }
