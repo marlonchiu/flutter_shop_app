@@ -4,6 +4,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'dart:convert';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    _getHotGoods();
+    // _getHotGoods();
     print('数据初始化');
   }
 
@@ -75,36 +76,59 @@ class _HomePageState extends State<HomePage>
             List<Map> floor3Goods =
                 (data['data']['floor3'] as List).cast(); //楼层1商品和图片
 
-            return SingleChildScrollView(
-              child: Column(children: <Widget>[
-                SwiperDiy(
+            return EasyRefresh(
+              // 自定义底部
+              footer: ClassicalFooter(
+                bgColor: Colors.white,
+                textColor: Colors.pink,
+                infoText: '加载中',
+                noMoreText: '已经滑动到底部',
+                loadReadyText: '上拉加载...',
+                infoColor: Colors.pink,
+              ),
+              child: ListView(
+                children: <Widget>[
                   // 页面顶部轮播组件
-                  swiperDataList: swiperDataList,
-                ),
-                TopNavigator(
+                  SwiperDiy(
+                    swiperDataList: swiperDataList,
+                  ),
                   // 导航栏目
-                  navigatorList: navigatorList,
-                ),
-                AdBanner(
-                    // 广告图片
-                    adPicture: advertesPicture),
-                LeaderPhone(
+                  TopNavigator(
+                    navigatorList: navigatorList,
+                  ),
+                  // 广告图片
+                  AdBanner(adPicture: advertesPicture),
                   // 拨打电话
-                  leaderImage: leaderImage,
-                  leaderPhone: leaderPhone,
-                ),
-                Recommend(
+                  LeaderPhone(
+                    leaderImage: leaderImage,
+                    leaderPhone: leaderPhone,
+                  ),
                   // 商品推荐
-                  recommendList: recommendList,
-                ),
-                FloorTitle(pictureAddress: floor1Title),
-                FloorContent(floorGoodsList: floor1Goods),
-                FloorTitle(pictureAddress: floor2Title),
-                FloorContent(floorGoodsList: floor2Goods),
-                FloorTitle(pictureAddress: floor3Title),
-                FloorContent(floorGoodsList: floor3Goods),
-                _hotGoods()
-              ]),
+                  Recommend(
+                    recommendList: recommendList,
+                  ),
+                  FloorTitle(pictureAddress: floor1Title),
+                  FloorContent(floorGoodsList: floor1Goods),
+                  FloorTitle(pictureAddress: floor2Title),
+                  FloorContent(floorGoodsList: floor2Goods),
+                  FloorTitle(pictureAddress: floor3Title),
+                  FloorContent(floorGoodsList: floor3Goods),
+                  _hotGoods()
+                ],
+              ),
+              onLoad: () async {
+                print('开始加载更多');
+                // var formPage = {'page': page};
+                // await getHomePageBelowConten(formPage).then((val) {
+                //   var data = json.decode(val.toString());
+                //   List<Map> newGoodsList = (data['data'] as List).cast();
+                //   setState(() {
+                //     hotGoodsList.addAll(newGoodsList);
+                //     page++;
+                //   });
+                // });
+                _getHotGoods();
+              },
             );
           } else {
             return Center(
@@ -120,7 +144,7 @@ class _HomePageState extends State<HomePage>
   void _getHotGoods() {
     var formPage = {'page': page};
     getHomePageBelowConten(formPage).then((val) {
-      print(val);
+      // print(val);
       var data = json.decode(val.toString());
       List<Map> newGoodsList = (data['data'] as List).cast();
       setState(() {
