@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../service/service_method.dart';
 import 'dart:convert';
 import '../modle/category.dart';
+import '../modle/categoryGoodsList.dart';
 // 状态管理
 import 'package:provide/provide.dart';
 import '../provide/child_category.dart';
@@ -35,10 +36,7 @@ class _CategoryPageState extends State<CategoryPage> {
           children: <Widget>[
             LeftCategoryNav(),
             Column(
-              children: <Widget>[
-                RightCategoryNav(),
-                CategoryGoodsList()
-              ],
+              children: <Widget>[RightCategoryNav(), CategoryGoodsList()],
             )
           ],
         ),
@@ -198,8 +196,9 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
     var data = {'categoryId': '4', 'categorySubId': "", 'page': 1};
     await commonRequest('getMallGoods', formData: data).then((val) {
       var data = json.decode(val.toString());
-      print('分类商品列表：>>>>>>>>>>>>>');
-      print(data);
+      CategoryGoodsListModel goodsList = CategoryGoodsListModel.fromJson(data);
+      // print('分类商品列表：>>>>>>>>>>>>>');
+      print(goodsList.data);
     });
   }
 }
