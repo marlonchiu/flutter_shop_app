@@ -7,6 +7,7 @@ class ChildCategory with ChangeNotifier {
   int categoryIndex = 0; //大类索引
   int childIndex = 0; // 子类高亮索引
   String categoryId = '4'; // 默认大类的Id('白酒的')
+  String categorySubId = ''; // 子类 ID, 默认为 ''
 
   //点击大类时切换逻辑
   getChildCategory(List<BxMallSubDto> list, String id) {
@@ -26,8 +27,9 @@ class ChildCategory with ChangeNotifier {
   }
 
   // 改变子类索引逻辑
-  changeChildIndex(int index) {
+  changeChildIndex(int index, String id) {
     childIndex = index;
+    categorySubId = id;
     notifyListeners();
   }
 }

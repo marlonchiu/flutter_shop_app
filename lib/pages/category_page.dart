@@ -188,7 +188,7 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
         : false;
     return InkWell(
       onTap: () {
-        Provide.value<ChildCategory>(context).changeChildIndex(index);
+        Provide.value<ChildCategory>(context).changeChildIndex(index, item.mallSubId);
         _getGoodsList(item.mallSubId);
       },
       child: Container(
@@ -211,8 +211,13 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
     await commonRequest('getMallGoods', formData: data).then((val) {
       var data = json.decode(val.toString());
       CategoryGoodsListModel goodsList = CategoryGoodsListModel.fromJson(data);
-      Provide.value<CategoryGoodsListProvide>(context)
-          .getGoodsList(goodsList.data);
+      // 解决 小类数据为 null 的 bug
+      if (goodsList.data == null) {
+        Provide.value<CategoryGoodsListProvide>(context).getGoodsList([]);
+      } else {
+        Provide.value<CategoryGoodsListProvide>(context)
+            .getGoodsList(goodsList.data);
+      }
     });
   }
 }
@@ -238,18 +243,22 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
   Widget build(BuildContext context) {
     return Provide<CategoryGoodsListProvide>(
       builder: (context, child, data) {
-        return Expanded(
-          child: Container(
-            width: ScreenUtil().setWidth(570),
-            // height: ScreenUtil().setHeight(1000),
-            child: ListView.builder(
-              itemCount: data.goodsList.length,
-              itemBuilder: (context, index) {
-                return _listItemWidget(data.goodsList, index);
-              },
+        if (data.goodsList.length > 0) {
+          return Expanded(
+            child: Container(
+              width: ScreenUtil().setWidth(570),
+              // height: ScreenUtil().setHeight(1000),
+              child: ListView.builder(
+                itemCount: data.goodsList.length,
+                itemBuilder: (context, index) {
+                  return _listItemWidget(data.goodsList, index);
+                },
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          return Text('暂时没有数据');
+        }
       },
     );
   }
