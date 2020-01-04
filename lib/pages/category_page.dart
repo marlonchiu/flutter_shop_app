@@ -12,6 +12,8 @@ import 'package:provide/provide.dart';
 import '../provide/child_category.dart';
 import '../provide/category_goods_list.dart';
 
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+
 // 因为接口数据异常 所以此处使用 json 数据模拟一下
 // Flutter 中的 JSON 解析  https://juejin.im/post/5c98a5ed51882520f2089450
 
@@ -188,7 +190,8 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
         : false;
     return InkWell(
       onTap: () {
-        Provide.value<ChildCategory>(context).changeChildIndex(index, item.mallSubId);
+        Provide.value<ChildCategory>(context)
+            .changeChildIndex(index, item.mallSubId);
         _getGoodsList(item.mallSubId);
       },
       child: Container(
@@ -239,19 +242,45 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
     super.initState();
   }
 
+  var scrollController = new ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Provide<CategoryGoodsListProvide>(
       builder: (context, child, data) {
+        try {
+          if (Provide.value<ChildCategory>(context).page == 1) {
+            // 列表位置，放到最上边  切换类别了
+            scrollController.jumpTo(0.0);
+          }
+        } catch (e) {
+          print('进入页面第一次初始化：${e}');
+        }
+
         if (data.goodsList.length > 0) {
           return Expanded(
             child: Container(
               width: ScreenUtil().setWidth(570),
               // height: ScreenUtil().setHeight(1000),
-              child: ListView.builder(
-                itemCount: data.goodsList.length,
-                itemBuilder: (context, index) {
-                  return _listItemWidget(data.goodsList, index);
+              child: EasyRefresh(
+                footer: ClassicalFooter(
+                  bgColor: Colors.white,
+                  textColor: Colors.pink,
+                  infoText: '加载中',
+                  noMoreText: Provide.value<ChildCategory>(context).noMoreText,
+                  loadReadyText: '上拉加载...',
+                  infoColor: Colors.pink,
+                ),
+                child: ListView.builder(
+                  controller: scrollController,
+                  itemCount: data.goodsList.length,
+                  itemBuilder: (context, index) {
+                    return _listItemWidget(data.goodsList, index);
+                  },
+                ),
+                onLoad: () async {
+                  print('开始加载更多......');
+                  _getMoreList();
                 },
               ),
             ),
@@ -286,6 +315,27 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
         ),
       ),
     );
+  }
+
+  //上拉加载更多的方法
+  void _getMoreList() async {
+    Provide.value<ChildCategory>(context).addPage();
+    var data = {
+      'categoryId': Provide.value<ChildCategory>(context).categoryId,
+      'categorySubId': Provide.value<ChildCategory>(context).categorySubId,
+      'page': Provide.value<ChildCategory>(context).page
+    };
+    await commonRequest('getMallGoods', formData: data).then((val) {
+      var data = json.decode(val.toString());
+      CategoryGoodsListModel goodsList = CategoryGoodsListModel.fromJson(data);
+      // 解决 小类数据为 null 的 bug
+      if (goodsList.data == null) {
+        Provide.value<ChildCategory>(context).changeNoMore('没有更多了');
+      } else {
+        Provide.value<CategoryGoodsListProvide>(context)
+            .getMoreList(goodsList.data);
+      }
+    });
   }
 
   // 制作图片组件
