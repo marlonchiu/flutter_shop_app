@@ -6,6 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../service/service_method.dart';
 import 'dart:convert';
 import '../modle/category.dart';
+// 状态管理
+import 'package:provide/provide.dart';
+import '../provide/child_category.dart';
 
 // 因为接口数据异常 所以此处使用 json 数据模拟一下
 // Flutter 中的 JSON 解析  https://juejin.im/post/5c98a5ed51882520f2089450
@@ -32,9 +35,7 @@ class _CategoryPageState extends State<CategoryPage> {
           children: <Widget>[
             LeftCategoryNav(),
             Column(
-              children: <Widget>[
-                RightCategoryNav()
-              ],
+              children: <Widget>[RightCategoryNav()],
             )
           ],
         ),
@@ -75,13 +76,21 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
 
   // 每一个子项
   Widget _leftInkWell(int index) {
+    bool isClick = false;
+    isClick = (index == listIndex) ? true : false;
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        setState(() {
+          listIndex = index;
+        });
+        var childList = list[index].bxMallSubDto;
+        Provide.value<ChildCategory>(context).getChildCategory(childList);
+      },
       child: Container(
         height: ScreenUtil().setHeight(100),
-        padding: EdgeInsets.only(left: 10, top: 20),
+        padding: EdgeInsets.only(left: 10, top: 15),
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: isClick ? Colors.black26 : Colors.white,
             border:
                 Border(bottom: BorderSide(width: 1, color: Colors.black12))),
         child: Text(list[index].mallCategoryName,
@@ -124,33 +133,41 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Container(
-        width: ScreenUtil().setWidth(570),
-        height: ScreenUtil().setHeight(80),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            border:
-                Border(bottom: BorderSide(width: 1, color: Colors.black12))),
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: list.length,
-          itemBuilder: (context, index) {
-            return _rightInkWell(list[index]);
-          },
-        ),
-      ),
-    );
+    return Container(child: Provide<ChildCategory>(
+      builder: (context, child, childCategory) {
+        return Container(
+          width: ScreenUtil().setWidth(570),
+          height: ScreenUtil().setHeight(80),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border:
+                  Border(bottom: BorderSide(width: 1, color: Colors.black12))),
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: childCategory.childCategoryList.length,
+            itemBuilder: (context, index) {
+              return _rightInkWell(childCategory.childCategoryList[index]);
+            },
+          ),
+        );
+      },
+    ));
   }
 
   // 小类的每一项
-  Widget _rightInkWell(String item) {
+  Widget _rightInkWell(BxMallSubDto item) {
     return InkWell(
       onTap: () {},
       child: Container(
         padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
-        child: Text(item, style: TextStyle(fontSize: ScreenUtil().setSp(28))),
+        child: Text(item.mallSubName,
+            style: TextStyle(fontSize: ScreenUtil().setSp(28))),
       ),
     );
   }
 }
+
+// 修改步骤：
+// 在Container Widget外层加入一个Provie widget。
+// 修改ListView Widget的itemCount选项为childCategory.childCategoryList.length。
+// 修改itemBuilder里的传值选项为return _rightInkWell(childCategory.childCategoryList[index]);
