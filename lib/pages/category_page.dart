@@ -169,7 +169,8 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
             scrollDirection: Axis.horizontal,
             itemCount: childCategory.childCategoryList.length,
             itemBuilder: (context, index) {
-              return _rightInkWell(childCategory.childCategoryList[index]);
+              return _rightInkWell(
+                  index, childCategory.childCategoryList[index]);
             },
           ),
         );
@@ -178,13 +179,22 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
   }
 
   // 小类的每一项
-  Widget _rightInkWell(BxMallSubDto item) {
+  Widget _rightInkWell(int index, BxMallSubDto item) {
+    // 是否点击
+    bool isCheck = false;
+    isCheck = (index == Provide.value<ChildCategory>(context).childIndex)
+        ? true
+        : false;
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Provide.value<ChildCategory>(context).changeChildIndex(index);
+      },
       child: Container(
         padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
         child: Text(item.mallSubName,
-            style: TextStyle(fontSize: ScreenUtil().setSp(28))),
+            style: TextStyle(
+                color: isCheck ? Colors.pink : Colors.black,
+                fontSize: ScreenUtil().setSp(28))),
       ),
     );
   }
