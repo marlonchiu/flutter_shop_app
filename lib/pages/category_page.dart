@@ -13,6 +13,7 @@ import '../provide/child_category.dart';
 import '../provide/category_goods_list.dart';
 
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 // 因为接口数据异常 所以此处使用 json 数据模拟一下
 // Flutter 中的 JSON 解析  https://juejin.im/post/5c98a5ed51882520f2089450
@@ -330,6 +331,14 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
       CategoryGoodsListModel goodsList = CategoryGoodsListModel.fromJson(data);
       // 解决 小类数据为 null 的 bug
       if (goodsList.data == null) {
+        Fluttertoast.showToast(
+            msg: '已经到底了',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.pink,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Provide.value<ChildCategory>(context).changeNoMore('没有更多了');
       } else {
         Provide.value<CategoryGoodsListProvide>(context)

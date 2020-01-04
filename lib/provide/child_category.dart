@@ -26,7 +26,7 @@ class ChildCategory with ChangeNotifier {
 
     // 添加全部(声明一个all 的类)
     BxMallSubDto all = BxMallSubDto();
-    all.mallSubId = '00';
+    all.mallSubId = '';
     all.mallCategoryId = '00';
     all.mallSubName = '全部';
     all.comments = 'null';
