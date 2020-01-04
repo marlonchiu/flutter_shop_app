@@ -7,6 +7,8 @@ import './provide/category_goods_list.dart';
 import 'package:fluro/fluro.dart';
 
 void main() {
+  final router = Router();
+  
   var counter = Counter();
   var childCategory = ChildCategory();
   var categoryGoodsListProvide = CategoryGoodsListProvide();
