@@ -9,7 +9,14 @@ class ChildCategory with ChangeNotifier {
 
   //点击大类时更换
   getChildCategory(List<BxMallSubDto> list) {
-    childCategoryList = list;
+    // 添加全部(声明一个all 的类)
+    BxMallSubDto all = BxMallSubDto();
+    all.mallSubId = '00';
+    all.mallCategoryId = '00';
+    all.mallSubName = '全部';
+    all.comments = 'null';
+    childCategoryList = [all];
+    childCategoryList.addAll(list);
     notifyListeners();
   }
 }
