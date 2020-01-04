@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import './pages/index_page.dart';
 import 'package:provide/provide.dart';
-import './provide/counter.dart';
 import './provide/child_category.dart';
 import './provide/category_goods_list.dart';
 import 'package:fluro/fluro.dart';
+import './routers/routes.dart';
+import './routers/application.dart';
+
+import './provide/counter.dart';
 
 void main() {
-  final router = Router();
-  
   var counter = Counter();
   var childCategory = ChildCategory();
   var categoryGoodsListProvide = CategoryGoodsListProvide();
@@ -19,17 +20,26 @@ void main() {
   providers
     ..provide(Provider<Counter>.value(counter))
     ..provide(Provider<ChildCategory>.value(childCategory))
-    ..provide(Provider<CategoryGoodsListProvide>.value(categoryGoodsListProvide));
+    ..provide(
+        Provider<CategoryGoodsListProvide>.value(categoryGoodsListProvide));
   runApp(ProviderNode(child: MyApp(), providers: providers));
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // fluro的全局注入和使用
+    final router = Router();
+    Routes.configureRoutes(router);
+    Application.router = router;
+
     return Container(
       child: MaterialApp(
           title: '百姓生活+',
           debugShowCheckedModeBanner: false,
+          //----------------fluro注入 start
+          onGenerateRoute: Application.router.generator,
+          //----------------fluro注入 end
           theme: ThemeData(primaryColor: Colors.pink),
           home: IndexPage()),
     );
