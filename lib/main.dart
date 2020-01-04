@@ -8,6 +8,7 @@ void main() {
   var providers = Providers();
   // 将counter对象添加进providers
 
+  // 多个状态可以使用 ..
   providers
     ..provide(Provider<Counter>.value(counter));
   runApp(ProviderNode(child: MyApp(), providers: providers));

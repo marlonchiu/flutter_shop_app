@@ -43,7 +43,8 @@ class MyButton extends StatelessWidget {
           onPressed: () {
             Provide.value<Counter>(context).increment();
           },
-          child: Text('递增')),
+          child: Text('递增')
+        ),
     );
   }
 }
