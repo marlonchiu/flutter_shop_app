@@ -98,7 +98,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
     // 接口调用
     await commonRequest('getCategory').then((val) {
       var data = json.decode(val.toString());
-      print(data);
+      // print(data);
       CategoryModel category = CategoryModel.fromJson(data);
       setState(() {
         list = category.data;
