@@ -6,9 +6,11 @@ class ChildCategory with ChangeNotifier {
   List<BxMallSubDto> childCategoryList = []; //商品列表
   int categoryIndex = 0; //大类索引
   int childIndex = 0; // 子类高亮索引
+  String categoryId = '4'; // 默认大类的Id('白酒的')
 
   //点击大类时切换逻辑
-  getChildCategory(List<BxMallSubDto> list) {
+  getChildCategory(List<BxMallSubDto> list, String id) {
+    categoryId = id;
     // 点击大类 子类高亮索引归零
     childIndex = 0;
 
