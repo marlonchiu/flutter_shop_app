@@ -14,3 +14,21 @@
 
 * [在线JSON校验格式化工具（Be JSON）](http://www.bejson.com/)
 * [JSON to Dart](https://javiercbk.github.io/json_to_dart/)
+
+## 用到的插件
+
+* [轮播图 flutter_swiper](https://github.com/best-flutter/flutter_swiper)
+
+* [屏幕适配方案 flutter_screenutil](https://github.com/OpenFlutter/flutter_ScreenUtil)
+
+* [打开网页、发邮件、打电话 url_launcher](https://github.com/flutter/plugins/tree/master/packages/url_launcher)
+
+* [下拉刷新以及上拉加载 flutter_easyrefresh](https://github.com/xuelongqy/flutter_easyrefresh)
+
+* [状态管理 provide](https://github.com/google/flutter-provide)
+
+* [页面轻提示 fluttertoast](https://github.com/PonnamKarthik/FlutterToast)
+
+* [路由管理 fluro](https://github.com/theyakka/fluro)
+
+* [解析HTML flutter_html](https://github.com/Sub6Resources/flutter_html)
