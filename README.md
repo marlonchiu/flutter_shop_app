@@ -32,3 +32,5 @@
 * [路由管理 fluro](https://github.com/theyakka/fluro)
 
 * [解析HTML flutter_html](https://github.com/Sub6Resources/flutter_html)
+
+* [持久化_shared_preferences](https://github.com/flutter/plugins/tree/master/packages/shared_preferences)
