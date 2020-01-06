@@ -5,6 +5,7 @@ import './details_page/details_top_area.dart';
 import './details_page/details_explain.dart';
 import './details_page/details_tabbar.dart';
 import './details_page/detals_web.dart';
+import './details_page/details_bottom.dart';
 
 class DetailsPage extends StatelessWidget {
   final String goodsId;
@@ -29,20 +30,27 @@ class DetailsPage extends StatelessWidget {
         future: _getBackInfo(context),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Container(
-              child: ListView(
-                children: <Widget>[
-                  // Text('商品ID为：${goodsId}'),
-                  // 商品详情顶部
-                  DetailsTopArea(),
-                  // 商品详情说明
-                  DetailsExplain(),
-                  // 商品详情TabBar
-                  DetailsTabBar(),
-                  // 商品详情 信息
-                  DetailsWeb(),
-                ],
-              ),
+            return Stack(
+              children: <Widget>[
+                ListView(
+                  children: <Widget>[
+                    // Text('商品ID为：${goodsId}'),
+                    // 商品详情顶部
+                    DetailsTopArea(),
+                    // 商品详情说明
+                    DetailsExplain(),
+                    // 商品详情TabBar
+                    DetailsTabBar(),
+                    // 商品详情 信息
+                    DetailsWeb(),
+                  ],
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  child: DetailsBottom(),
+                )
+              ],
             );
           } else {
             return Text('加载中........');
