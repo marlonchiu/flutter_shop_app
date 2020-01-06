@@ -3,6 +3,7 @@ import 'package:provide/provide.dart';
 import '../provide/details_info.dart';
 import './details_page/details_top_area.dart';
 import './details_page/details_explain.dart';
+import './details_page/details_tabbar.dart';
 
 class DetailsPage extends StatelessWidget {
   final String goodsId;
@@ -28,13 +29,15 @@ class DetailsPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Container(
-              child: Column(
+              child: ListView(
                 children: <Widget>[
                   // Text('商品ID为：${goodsId}'),
                   // 商品详情顶部
                   DetailsTopArea(),
                   // 商品详情说明
                   DetailsExplain(),
+                  // 商品详情TabBar
+                  DetailsTabBar(),
                 ],
               ),
             );
