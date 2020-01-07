@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../modle/category.dart';
+import '../model/category.dart';
 
 // ChangeNotifier的混入是不用管理听众
 class ChildCategory with ChangeNotifier {

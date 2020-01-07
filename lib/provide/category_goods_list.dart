@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../modle/categoryGoodsList.dart';
+import '../model/categoryGoodsList.dart';
 
 class CategoryGoodsListProvide with ChangeNotifier {
   List<CategoryListData> goodsList = []; //子类商品列表

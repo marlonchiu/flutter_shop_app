@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../modle/cartInfo.dart';
+import '../model/cartInfo.dart';
 
 class CartProvide with ChangeNotifier {
   String cartString = "[]"; // 字符串变量（后期会换成对象）

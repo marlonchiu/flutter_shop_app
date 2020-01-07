@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../service/service_method.dart';
 import 'dart:convert';
-import '../modle/category.dart';
-import '../modle/categoryGoodsList.dart';
+import '../model/category.dart';
+import '../model/categoryGoodsList.dart';
 // 状态管理
 import 'package:provide/provide.dart';
 import '../provide/child_category.dart';
