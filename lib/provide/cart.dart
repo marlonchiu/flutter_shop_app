@@ -41,7 +41,7 @@ class CartProvide with ChangeNotifier {
         'images': images
       };
       tempList.add(newGoods);
-      cartList.add(new CartInfoModel.fromJson(newGoods));
+      cartList.add(CartInfoModel.fromJson(newGoods));
     }
 
     // 把字符串进行encode操作
@@ -72,9 +72,10 @@ class CartProvide with ChangeNotifier {
       cartList = [];
     } else {
       var middleList = json.decode(cartString.toString());
+      // 转换为 List 类型
       List<Map> tempList = (middleList as List).cast();
       tempList.forEach((item) {
-        cartList.add(new CartInfoModel.fromJson(item));
+        cartList.add(CartInfoModel.fromJson(item));
       });
     }
     notifyListeners();
