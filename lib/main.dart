@@ -4,6 +4,7 @@ import 'package:provide/provide.dart';
 import './provide/child_category.dart';
 import './provide/category_goods_list.dart';
 import './provide/details_info.dart';
+import './provide/cart.dart';
 import 'package:fluro/fluro.dart';
 import './routers/routes.dart';
 import './routers/application.dart';
@@ -11,12 +12,14 @@ import './routers/application.dart';
 import './provide/counter.dart';
 
 void main() {
+  // 将counter对象添加进providers
   var counter = Counter();
   var childCategory = ChildCategory();
   var categoryGoodsListProvide = CategoryGoodsListProvide();
   var detailsInfoProvide = DetailsInfoProvide();
   var providers = Providers();
-  // 将counter对象添加进providers
+  // 购物车
+  var cartProvide = CartProvide();
 
   // 多个状态可以使用 ..
   providers
@@ -24,8 +27,9 @@ void main() {
     ..provide(Provider<ChildCategory>.value(childCategory))
     ..provide(
         Provider<CategoryGoodsListProvide>.value(categoryGoodsListProvide))
-    ..provide(
-        Provider<DetailsInfoProvide>.value(detailsInfoProvide));
+    ..provide(Provider<DetailsInfoProvide>.value(detailsInfoProvide))
+    ..provide(Provider<CartProvide>.value(cartProvide));
+
   runApp(ProviderNode(child: MyApp(), providers: providers));
 }
 
