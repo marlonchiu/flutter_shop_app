@@ -25,13 +25,16 @@ class CartBottom extends StatelessWidget {
 
   // 全选按钮
   Widget selectAllBtn(context) {
+    bool isAllChecked = Provide.value<CartProvide>(context).isAllChecked;
     return Container(
         child: Row(
       children: <Widget>[
         Checkbox(
-          value: true,
+          value: isAllChecked,
           activeColor: Colors.pink,
-          onChanged: (bool val) {},
+          onChanged: (bool val) {
+            Provide.value<CartProvide>(context).changeAllCheckBtnState(val);
+          },
         ),
         Text('全选')
       ],
