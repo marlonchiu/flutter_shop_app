@@ -63,7 +63,7 @@ class CartBottom extends StatelessWidget {
                 width: ScreenUtil().setWidth(150),
                 child: Text('￥${allPrice}',
                     style: TextStyle(
-                        color: Colors.red, fontSize: ScreenUtil().setSp(36))),
+                        color: Colors.red, fontSize: ScreenUtil().setSp(32))),
               )
             ],
           ),
