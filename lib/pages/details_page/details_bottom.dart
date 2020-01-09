@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provide/provide.dart';
 import '../../provide/cart.dart';
 import '../../provide/details_info.dart';
+import '../../provide/currentIndex.dart';
 
 // 商品详情底部购物车
 class DetailsBottom extends StatelessWidget {
@@ -25,7 +26,9 @@ class DetailsBottom extends StatelessWidget {
         children: <Widget>[
           InkWell(
             onTap: () {
-              print('点击加入购物车');
+              // 详细页直接跳转到购物车页面
+              Provide.value<CurrentIndexProvide>(context).changeIndex(2);
+              Navigator.pop(context);
             },
             child: Container(
               width: ScreenUtil().setWidth(110),
