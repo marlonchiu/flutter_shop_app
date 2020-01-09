@@ -81,4 +81,28 @@ class CartProvide with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  // 删除 商品条目
+  deleteOneGoods(String goodsId) async {
+    // 获取持久化数据的方法可以单独封装一下
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    cartString = preferences.getString('cartInfo');
+    var temp = json.decode(cartString.toString());
+    List<Map> tempList = (temp as List).cast();
+
+    int tempIndex = 0;
+    int delIndex = 0;
+    tempList.forEach((item) {
+      if (item['goodsId'] == goodsId) {
+        delIndex = tempIndex;
+      }
+      tempIndex++;
+    });
+    tempList.removeAt(delIndex);
+    // 把字符串进行encode操作
+    cartString = json.encode(tempList).toString();
+    // 进行持久化
+    preferences.setString('cartInfo', cartString);
+    await getCartInfo();
+  }
 }
