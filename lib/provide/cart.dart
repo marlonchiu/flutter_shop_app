@@ -24,12 +24,18 @@ class CartProvide with ChangeNotifier {
     // 声明变量，用于判断购物车中是否已经存在此商品ID
     var isHave = false; // 默认为没有
     int indexVal = 0; // 用于进行循环的索引使用,因为dart 是没有索引的
+    allPrice = 0;
+    allGoodsCount = 0;
     tempList.forEach((item) {
       // 如果存在，数量进行+1操作
       if (item['goodsId'] == goodsId) {
         tempList[indexVal]['count'] = item['count'] + 1;
         cartList[indexVal].count++;
         isHave = true;
+      }
+      if (item['isChecked']) {
+        allPrice += cartList[indexVal].count * cartList[indexVal].price;
+        allGoodsCount += cartList[indexVal].count;
       }
       indexVal++;
     });
@@ -46,6 +52,8 @@ class CartProvide with ChangeNotifier {
       };
       tempList.add(newGoods);
       cartList.add(CartInfoModel.fromJson(newGoods));
+      allPrice += count * price;
+      allGoodsCount += count;
     }
 
     // 把字符串进行encode操作
