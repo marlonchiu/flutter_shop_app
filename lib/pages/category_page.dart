@@ -14,6 +14,7 @@ import '../provide/category_goods_list.dart';
 
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../routers/application.dart';
 
 // 因为接口数据异常 所以此处使用 json 数据模拟一下
 // Flutter 中的 JSON 解析  https://juejin.im/post/5c98a5ed51882520f2089450
@@ -300,7 +301,10 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
   // 组合_goodsImage _goodsName _goodsPrice成一个
   Widget _listItemWidget(List newList, int index) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Application.router.navigateTo(
+            context, "/detail?id=${newList[index].goodsId}");
+      },
       child: Container(
         padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
         decoration: BoxDecoration(

@@ -400,8 +400,8 @@ class Recommend extends StatelessWidget {
             context, "/detail?id=${recommendList[index]['goodsId']}");
       },
       child: Container(
-        width: ScreenUtil().setWidth(280),
-        // height: ScreenUtil().setHeight(330),
+        width: ScreenUtil().setWidth(250),
+        height: ScreenUtil().setHeight(330),
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
             color: Colors.white,
@@ -425,7 +425,7 @@ class Recommend extends StatelessWidget {
   // 横向列表组件
   Widget _recommendList() {
     return Container(
-      height: ScreenUtil().setHeight(380),
+      height: ScreenUtil().setHeight(356),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: recommendList.length,
