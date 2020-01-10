@@ -13,6 +13,14 @@ class ChildCategory with ChangeNotifier {
   int page = 1; //列表页数，当改变大类或者小类时进行改变
   String noMoreText = ''; //显示更多的标识
 
+  // 首页点击类别是更改类别
+  changeCategory(String id, int index) {
+    categoryId = id;
+    categoryIndex = index;
+    categorySubId = '';
+    notifyListeners();
+  }
+
   //点击大类时切换逻辑
   getChildCategory(List<BxMallSubDto> list, String id) {
     categoryId = id;

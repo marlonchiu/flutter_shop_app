@@ -61,22 +61,29 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
   @override
   void initState() {
     _getCategory();
-    _getGoodsList();
+    // _getGoodsList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: ScreenUtil().setWidth(180),
-      decoration: BoxDecoration(
-          border: Border(right: BorderSide(width: 1, color: Colors.black12))),
-      child: ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (context, index) {
-          return _leftInkWell(index);
-        },
-      ),
+    return Provide<ChildCategory>(
+      builder: (context, child, val) {
+        _getGoodsList(context);
+        listIndex = val.categoryIndex;
+        return Container(
+          width: ScreenUtil().setWidth(180),
+          decoration: BoxDecoration(
+              border:
+                  Border(right: BorderSide(width: 1, color: Colors.black12))),
+          child: ListView.builder(
+            itemCount: list.length,
+            itemBuilder: (context, index) {
+              return _leftInkWell(index);
+            },
+          ),
+        );
+      },
     );
   }
 
@@ -86,16 +93,13 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
     isClick = (index == listIndex) ? true : false;
     return InkWell(
       onTap: () {
-        setState(() {
-          listIndex = index;
-        });
-
         var childList = list[index].bxMallSubDto;
         var categoryId = list[index].mallCategoryId;
 
+        Provide.value<ChildCategory>(context).changeCategory(categoryId, index);
         Provide.value<ChildCategory>(context)
             .getChildCategory(childList, categoryId);
-        _getGoodsList(categoryId: categoryId);
+        _getGoodsList(context, categoryId: categoryId);
       },
       child: Container(
         height: ScreenUtil().setHeight(100),
@@ -134,10 +138,10 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
   }
 
   // 获取商品分类列表
-  void _getGoodsList({String categoryId}) async {
+  void _getGoodsList(BuildContext context, {String categoryId}) async {
     var data = {
-      'categoryId': categoryId == null ? '4' : categoryId,
-      'categorySubId': "",
+      'categoryId': categoryId == null ? Provide.value<ChildCategory>(context).categoryId : categoryId,
+      'categorySubId': Provide.value<ChildCategory>(context).categorySubId,
       'page': 1
     };
     await commonRequest('getMallGoods', formData: data).then((val) {
@@ -193,7 +197,7 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
       onTap: () {
         Provide.value<ChildCategory>(context)
             .changeChildIndex(index, item.mallSubId);
-        _getGoodsList(item.mallSubId);
+        _getGoodsList(context, item.mallSubId);
       },
       child: Container(
         padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
@@ -206,7 +210,7 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
   }
 
   // 获取商品分类列表(在子类上调用)
-  void _getGoodsList(String categorySubId) async {
+  void _getGoodsList(context, String categorySubId) async {
     var data = {
       'categoryId': Provide.value<ChildCategory>(context).categoryId,
       'categorySubId': categorySubId,

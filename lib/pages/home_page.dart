@@ -8,6 +8,10 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 // 路由
 import '../routers/application.dart';
+import 'package:provide/provide.dart';
+import '../provide/child_category.dart';
+import '../provide/currentIndex.dart';
+import '../model/category.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -47,6 +51,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),
       appBar: AppBar(
         title: Text('百姓生活+'),
       ),
@@ -276,10 +281,11 @@ class TopNavigator extends StatelessWidget {
   TopNavigator({Key key, this.navigatorList}) : super(key: key);
 
   // 把每一个导航看做一个单独的组件
-  Widget _gridViewItemUI(BuildContext context, item) {
+  Widget _gridViewItemUI(BuildContext context, index, item) {
     return InkWell(
       onTap: () {
         print('点击导航');
+        _goCategory(context, index, item['mallCategoryId']);
       },
       child: Column(
         children: <Widget>[
@@ -290,6 +296,18 @@ class TopNavigator extends StatelessWidget {
     );
   }
 
+  void _goCategory(BuildContext context, int index, String categoryId) async {
+    await commonRequest('getCategory').then((val) {
+      var data = json.decode(val.toString());
+      CategoryModel category = CategoryModel.fromJson(data);
+      List list = category.data;
+      Provide.value<ChildCategory>(context).changeCategory(categoryId, index);
+      Provide.value<ChildCategory>(context)
+          .getChildCategory(list[index].bxMallSubDto, categoryId);
+      Provide.value<CurrentIndexProvide>(context).changeIndex(1);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // 边界判断
@@ -297,7 +315,10 @@ class TopNavigator extends StatelessWidget {
       navigatorList.removeRange(10, navigatorList.length);
     }
 
+    var tempIndex = -1;
     return Container(
+      color: Colors.white,
+      margin: EdgeInsets.only(top: 5.0),
       height: ScreenUtil().setHeight(320.0),
       padding: EdgeInsets.all(3.0),
       child: GridView.count(
@@ -305,7 +326,8 @@ class TopNavigator extends StatelessWidget {
         crossAxisCount: 5,
         padding: EdgeInsets.all(4.0),
         children: navigatorList.map((item) {
-          return _gridViewItemUI(context, item);
+          tempIndex++;
+          return _gridViewItemUI(context, tempIndex, item);
         }).toList(),
       ),
     );
@@ -320,6 +342,8 @@ class AdBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: 5.0),
+      color: Colors.white,
       child: Image.network(adPicture),
     );
   }
@@ -376,8 +400,8 @@ class Recommend extends StatelessWidget {
             context, "/detail?id=${recommendList[index]['goodsId']}");
       },
       child: Container(
-        width: ScreenUtil().setWidth(250),
-        height: ScreenUtil().setHeight(330),
+        width: ScreenUtil().setWidth(280),
+        // height: ScreenUtil().setHeight(330),
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
             color: Colors.white,
@@ -401,7 +425,7 @@ class Recommend extends StatelessWidget {
   // 横向列表组件
   Widget _recommendList() {
     return Container(
-      height: ScreenUtil().setHeight(356),
+      height: ScreenUtil().setHeight(380),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: recommendList.length,
