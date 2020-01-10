@@ -35,4 +35,6 @@
 
 * [解析HTML flutter_html](https://github.com/Sub6Resources/flutter_html)
 
-* [持久化_shared_preferences](https://github.com/flutter/plugins/tree/master/packages/shared_preferences)
+* [持久化 shared_preferences](https://github.com/flutter/plugins/tree/master/packages/shared_preferences)
+
+* [极光消息推送 jpush-flutter-plugin](https://github.com/jpush/jpush-flutter-plugin)
