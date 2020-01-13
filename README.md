@@ -38,3 +38,5 @@
 * [持久化 shared_preferences](https://github.com/flutter/plugins/tree/master/packages/shared_preferences)
 
 * [极光消息推送 jpush-flutter-plugin](https://github.com/jpush/jpush-flutter-plugin)
+
+* [高德地图 amap_base_flutter](https://github.com/OpenFlutter/amap_base_flutter)
